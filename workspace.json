@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "projects": {
+    "link-admin-portal": {
+      "root": "apps/link-admin-portal",
+      "sourceRoot": "apps/link-admin-portal/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/link-admin-portal",
+            "main": "apps/link-admin-portal/src/main.ts",
+            "tsConfig": "apps/link-admin-portal/tsconfig.app.json",
+            "assets": ["apps/link-admin-portal/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/link-admin-portal/src/environments/environment.ts",
+                  "with": "apps/link-admin-portal/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "link-admin-portal:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/link-admin-portal/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/link-admin-portal"],
+          "options": {
+            "jestConfig": "apps/link-admin-portal/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "link-admin-portal"
+}
